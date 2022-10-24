@@ -1,2 +1,3 @@
 # troubleshooting
-Queries used for general troubleshooting of AIP campaigns + clients
+
+This is a repository for queries that I commonly use for general troubleshooting of AIP campaigns + clients.
