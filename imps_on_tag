@@ -1,0 +1,18 @@
+## Can be used when checking for impressions against a macro tag
+## Can also be used to check against specific campaign ID's (assuming they're coming in from the macro tag macros)
+
+DECLARE START_TIMESTAMP TIMESTAMP DEFAULT '2022-10-15T00:00:00';
+DECLARE END_TIMESTAMP TIMESTAMP DEFAULT '2022-10-24T11:59:59';
+
+select 
+  day_partition,
+  count(impression_id) as imps,
+  tag_id,
+  macro_campaign_id
+from `decoupled-attention.business_access_aip.v_impression_daily` imps 
+where tag_id in (9)
+and (DATE(imps.day_partition) BETWEEN DATE(START_TIMESTAMP) AND DATE(END_TIMESTAMP))
+and macro_campaign_id='28614145'
+group by tag_id, day_partition, macro_campaign_id
+order by day_partition DESC
+
