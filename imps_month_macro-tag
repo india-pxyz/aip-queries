@@ -1,0 +1,16 @@
+## can be used to look back on impression volumes by country + macro tag ID ## 
+
+DECLARE START_TIMESTAMP TIMESTAMP DEFAULT '2022-09-01T00:00:00';
+DECLARE END_TIMESTAMP TIMESTAMP DEFAULT '2022-10-31T00:00:00';
+
+SELECT 
+  COUNT(impression_id) AS total_impressions, 
+  geo_country as country,
+  tag_id,
+  EXTRACT(month FROM impression_timestamp) as month,
+  EXTRACT(year FROM impression_timestamp) as year
+FROM `decoupled-attention.business_access_aip.v_impression_daily` imps
+WHERE 
+  (DATE(imps.day_partition) BETWEEN DATE(START_TIMESTAMP) AND DATE(END_TIMESTAMP))
+GROUP BY month, year, country, tag_id
+
