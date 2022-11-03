@@ -1,3 +1,5 @@
+-- this query can be used to understand whether impressions are eligible or not for attention scoring, and if not, provides more information on the reason why not
+
 -- SET TIMEFRAME BELOW
 DECLARE START_TIMESTAMP TIMESTAMP DEFAULT '2022-10-24T03:00:00';
 DECLARE END_TIMESTAMP TIMESTAMP DEFAULT '2022-10-26T00:00:00';
