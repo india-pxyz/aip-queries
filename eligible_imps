@@ -1,0 +1,26 @@
+-- SET TIMEFRAME BELOW
+DECLARE START_TIMESTAMP TIMESTAMP DEFAULT '2022-10-24T03:00:00';
+DECLARE END_TIMESTAMP TIMESTAMP DEFAULT '2022-10-26T00:00:00';
+-- SET MACRO TAG ID OR CAMPAIGN ID BELOW. 
+DECLARE TAG_ID ARRAY<STRING> DEFAULT ['66'];
+--DECLARE MACRO_CAMPAIGN_ID ARRAY<STRING> DEFAULT ['66'];
+
+select 
+  count(impression_id) as imps,
+  tag_id,
+  macro_campaign_id,
+  case attention_is_eligible
+    when true then 'Eligible'
+    when false then 'Ineligible'
+    else 'other'
+    END
+    as eligible,
+  attention_ineligible_reason	
+  --EXTRACT(day FROM impression_timestamp) as day, ##can add this in if you'd like day data
+  --EXTRACT(month FROM impression_timestamp) as month ##can add this in if you'd like month data
+from `decoupled-attention.business_access_aip.v_impression_hourly` imps 
+where tag_id =(TAG_ID)
+--and macro_campaign_id=(MACRO_CAMPAIGN_ID)
+and (DATE(imps.hour_partition) BETWEEN DATE(START_TIMESTAMP) AND DATE(END_TIMESTAMP))
+group by tag_id, macro_campaign_id, attention_is_eligible, attention_ineligible_reason	 --day, month, 
+order by macro_campaign_id DESC 
