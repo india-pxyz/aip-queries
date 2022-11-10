@@ -11,6 +11,7 @@ SELECT
   EXTRACT(year FROM impression_timestamp) as year
 FROM `decoupled-attention.business_access_aip.v_impression_daily` imps
 WHERE 
+  tag_id= [INSERT TAG ID HERE]
   (DATE(imps.day_partition) BETWEEN DATE(START_TIMESTAMP) AND DATE(END_TIMESTAMP))
 GROUP BY month, year, country, tag_id
 
